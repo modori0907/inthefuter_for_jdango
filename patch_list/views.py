@@ -25,9 +25,16 @@ class PatchListView(ListView):
         query = super().get_queryset()
         # URLに記載した名前
         name = self.request.GET.get('application_name', None)
+        checks = self.request.GET.get('patch_check', None)
+
         if name:
             query = query.filter(
                 name=name
+            )
+
+        if checks:
+            query = query.filter(
+                checks=checks
             )
         return query
 
@@ -37,18 +44,14 @@ class PatchListView(ListView):
     def get_context_data(self, **kwargs):
         # クラスのget_context_dataメソッドを呼び出し、コンテキストデータを取得
         context = super().get_context_data(**kwargs)
-        print(f"1st{context}")
+
         # GETパラメーターにapplication_nameが含まれている場合に、CSVファイルのダウンロードURLをコンテキストに追加
-        if 'application_name' in self.request.GET:
-            print("2nd", self.request.GET)
-            print("2nd type", type(self.request.GET))
+        if 'application_name' or 'patch_check' in self.request.GET:
             # reverse('patch_list:list')で、patch_listという名前のURLパターンのURLを取得
             # self.request.GET.urlencode()で、GETパラメーターをエンコードした文字列を取得
             context['csv_url'] = reverse('patch_list:list') + '?' + self.request.GET.urlencode()
             # context['csv_url']に、CSVファイルのダウンロードURLを追加
             context['csv_url'] += '&export=csv'
-            print("if context", context)
-        print("final", context)
         return context
 
 

@@ -4,41 +4,66 @@
 
 {% block content %}
     <h1>Patch List</h1>
-{#TODO: 更新日を入れたい#}
-{#TODO: チェックした人#}
+    <br>
+    <a href="{% url 'patch_list:list' %}">全てのデータを再表示する</a>
+    <br>
+    <br>
+    <p><a href="{{ csv_url }}">CSVで出力する</a></p>
+
+
+
+    {#TODO: 更新日を入れたい#}
+    {#TODO: チェックした人#}
 
     <table class="table table-striped">
-    <form method="get" action="{% url 'patch_list:list' %}" >
-        <p>プロダクトタイプ： <input type="text" name="application_name"></p>
-        <p><input type="submit" value="実行する"></p>
-
-{#追加したcsvダウンロード     まだうまく動かない   #}
-          {% if csv_url %}
-             <p><a href="{{ csv_url }}">CSVで出力する</a></p>
-          {% endif %}
+        <form method="get" action="{% url 'patch_list:list' %}">
+            <a><strong><u>条件検索（＆）</u></strong></a>
 
 
-    </form>
-            <tr>
-                <th>Name</th>
-                <th>Checks</th>
-                <th>Release Date</th>
-                <th>Patch Name</th>
-                <th>Patch No</th>
-                <th>Reference URL</th>
-            </tr>
+            <p>プロダクトタイプ：
+                {#            <input type="text" name="application_name">#}
+                <select name="application_name">
+                    <option value="">--必要に応じ選択してください--</option>
+                    <option value="ACM">ACM</option>
+                    <option value="CMS">CMS</option>
+                    <option value="AES">AES</option>
+                </select>
+            </p>
+            {# 追加  #}
+            <p>チェック有無　： <input type="text" name="patch_check"></p>
+            <p>
+                <input type="submit" value="上記内容で検索する">
+            </p>
+
+            {#            <label for="application-list">リストから選択</label>#}
+            {#            <select id="application-list" name="application_name">#}
+            {#                <option value="app1">ACM</option>#}
+            {#                <option value="app2">CMS</option>#}
+            {#                <option value="app3">AES</option>#}
+            {#            </select>#}
+
+
+        </form>
+        <tr>
+            <th>Name</th>
+            <th>Checks</th>
+            <th>Release Date</th>
+            <th>Patch Name</th>
+            <th>Patch No</th>
+            <th>Reference URL</th>
+        </tr>
         </thead>
         <tbody>
-            {% for patch_list in object_list %}
-                <tr>
-                    <td>{{ patch_list.name }}</td>
-                    <td>{{ patch_list.checks }}</td>
-                    <td>{{ patch_list.release_date }}</td>
-                    <td>{{ patch_list.patch_name }}</td>
-                    <td>{{ patch_list.patch_no }}</td>
-                    <td>{{ patch_list.reference_url }}</td>
-                </tr>
-            {% endfor %}
+        {% for patch_list in object_list %}
+            <tr>
+                <td>{{ patch_list.name }}</td>
+                <td>{{ patch_list.checks }}</td>
+                <td>{{ patch_list.release_date }}</td>
+                <td>{{ patch_list.patch_name }}</td>
+                <td>{{ patch_list.patch_no }}</td>
+                <td>{{ patch_list.reference_url }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}
