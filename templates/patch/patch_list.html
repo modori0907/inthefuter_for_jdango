@@ -19,6 +19,14 @@
         <form method="get" action="{% url 'patch_list:list' %}">
             <a><strong><u>条件検索（＆）</u></strong></a>
 
+            <p>
+                開始月:
+                <input type="month" name="start_date">
+                終了月:
+                <input type="month" name="end_date">
+            </p>
+            <p>
+
 
             <p>プロダクトタイプ：
                 {#            <input type="text" name="application_name">#}

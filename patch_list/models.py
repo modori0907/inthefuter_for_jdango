@@ -21,6 +21,13 @@ class Patchs(models.Model):
     # 更新した日時を画面上に表示させるため
     # updated_at = models.DateTimeField(auto_now=True)
 
+    # 検索範囲を指定するため
+    @property
+    def release_month(self):
+        return self.release_date.strftime('%Y-%m')
+
+
+
 #　後で追加していく
     class Meta:
         db_table = "patchlists"
@@ -36,6 +43,8 @@ class Patchs_file(models.Model):
 
     class Meta:
         db_table = "patch_file"
+
+
 
     def __str__(self):
         return self.patch_name.patch_name
