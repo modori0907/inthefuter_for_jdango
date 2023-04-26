@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 # class ApplicationNames(models.Model):
@@ -18,15 +19,19 @@ class Patchs(models.Model):
     patch_name = models.CharField(max_length=100)
     patch_no = models.CharField(max_length=100)
     reference_url = models.URLField()
-    # 更新した日時を画面上に表示させるため
-    # updated_at = models.DateTimeField(auto_now=True)
 
-#　後で追加していく
+    # 更新範囲を指定するため
+    @property
+    def release_month(self):
+        return self.release_date.strftime('%Y-%m')
+
+    # 　後で追加していく
     class Meta:
         db_table = "patchlists"
 
     def __str__(self):
         return self.name
+
 
 class Patchs_file(models.Model):
     patch_file = models.FileField()
@@ -39,4 +44,3 @@ class Patchs_file(models.Model):
 
     def __str__(self):
         return self.patch_name.patch_name
-
