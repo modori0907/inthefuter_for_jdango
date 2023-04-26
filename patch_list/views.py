@@ -7,8 +7,6 @@ import csv
 from django.http import HttpResponse
 from django.urls import reverse
 from datetime import datetime
-from django.db.models import Q
-
 
 from .models import (
     Patchs, Patchs_file
@@ -28,9 +26,6 @@ class PatchListView(ListView):
         # URLに記載した名前
         name = self.request.GET.get('application_name', None)
         checks = self.request.GET.get('patch_check', None)
-        # 月を指定した検索
-        start_month = self.request.GET.get('start_month', None)
-        end_month = self.request.GET.get('end_month', None)
 
         if name:
             query = query.filter(
@@ -41,12 +36,6 @@ class PatchListView(ListView):
             query = query.filter(
                 checks=checks
             )
-        # 月を指定した検索
-        if start_month and end_month:
-            start_month = datetime.strptime(start_month, '%Y-%m')
-            end_month = datetime.strptime(end_month, '%Y-%m')
-            query = query.filter(release_date__range=(start_month, end_month))
-
         return query
 
     # csvダウンロード用追加した
@@ -56,19 +45,14 @@ class PatchListView(ListView):
         # クラスのget_context_dataメソッドを呼び出し、コンテキストデータを取得
         context = super().get_context_data(**kwargs)
 
-        if 'application_name' or 'patch_check' or 'start_month' or 'end_month' in self.request.GET:
-            csv_url = reverse('patch_list:list') + '?' + self.request.GET.urlencode() + '&export=csv'
-            context['csv_url'] = csv_url
-
-
-        # # GETパラメーターにapplication_nameが含まれている場合に、CSVファイルのダウンロードURLをコンテキストに追加
-        # if 'application_name' or 'patch_check' in self.request.GET:
-        #     # reverse('patch_list:list')で、patch_listという名前のURLパターンのURLを取得
-        #     # self.request.GET.urlencode()で、GETパラメーターをエンコードした文字列を取得
-        #     context['csv_url'] = reverse('patch_list:list') + '?' + self.request.GET.urlencode()
-        #     # context['csv_url']に、CSVファイルのダウンロードURLを追加
-        #     context['csv_url'] += '&export=csv'
-        # return context
+        # GETパラメーターにapplication_nameが含まれている場合に、CSVファイルのダウンロードURLをコンテキストに追加
+        if 'application_name' or 'patch_check' in self.request.GET:
+            # reverse('patch_list:list')で、patch_listという名前のURLパターンのURLを取得
+            # self.request.GET.urlencode()で、GETパラメーターをエンコードした文字列を取得
+            context['csv_url'] = reverse('patch_list:list') + '?' + self.request.GET.urlencode()
+            # context['csv_url']に、CSVファイルのダウンロードURLを追加
+            context['csv_url'] += '&export=csv'
+        return context
 
 
 

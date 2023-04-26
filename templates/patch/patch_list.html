@@ -10,16 +10,14 @@
     <br>
     <p><a href="{{ csv_url }}">CSVで出力する</a></p>
 
+
+
+    {#TODO: 更新日を入れたい#}
+    {#TODO: チェックした人#}
+
     <table class="table table-striped">
         <form method="get" action="{% url 'patch_list:list' %}">
             <a><strong><u>条件検索（＆）</u></strong></a>
-
-            <p>
-                開始月:
-                <input type="month" name="start_date">
-                終了月:
-                <input type="month" name="end_date">
-            </p>
 
 
             <p>プロダクトタイプ：
@@ -31,9 +29,8 @@
                     <option value="AES">AES</option>
                 </select>
             </p>
+            {# 追加  #}
             <p>チェック有無　： <input type="text" name="patch_check"></p>
-
-
             <p>
                 <input type="submit" value="上記内容で検索する">
             </p>
