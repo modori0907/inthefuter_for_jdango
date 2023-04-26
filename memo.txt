@@ -1,0 +1,19 @@
+modori/modori
+
+検索画面作成
+    html
+        <form method="get" action="{% url 'patch_list:list' %}" >
+            <p>プロダクトタイプ： <input type="text" name="application_name"></p>
+            <p><input type="submit" value="実行する"></p>
+        </form>
+    views.py
+        def get_queryset(self):
+            query = super().get_queryset()
+            # URLに記載した名前
+            name = self.request.GET.get('application_name', None)
+            if name:
+                query = query.filter(
+                    name=name
+                )
+            return query
+

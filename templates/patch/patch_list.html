@@ -1,0 +1,44 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Patch List</h1>
+{#TODO: 更新日を入れたい#}
+{#TODO: チェックした人#}
+
+    <table class="table table-striped">
+    <form method="get" action="{% url 'patch_list:list' %}" >
+        <p>プロダクトタイプ： <input type="text" name="application_name"></p>
+        <p><input type="submit" value="実行する"></p>
+
+{#追加したcsvダウンロード     まだうまく動かない   #}
+          {% if csv_url %}
+             <p><a href="{{ csv_url }}">CSVで出力する</a></p>
+          {% endif %}
+
+
+    </form>
+            <tr>
+                <th>Name</th>
+                <th>Checks</th>
+                <th>Release Date</th>
+                <th>Patch Name</th>
+                <th>Patch No</th>
+                <th>Reference URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patch_list in object_list %}
+                <tr>
+                    <td>{{ patch_list.name }}</td>
+                    <td>{{ patch_list.checks }}</td>
+                    <td>{{ patch_list.release_date }}</td>
+                    <td>{{ patch_list.patch_name }}</td>
+                    <td>{{ patch_list.patch_no }}</td>
+                    <td>{{ patch_list.reference_url }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
