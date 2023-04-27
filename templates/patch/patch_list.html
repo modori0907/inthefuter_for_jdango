@@ -8,12 +8,11 @@
     <a href="{% url 'patch_list:list' %}">全てのデータを再表示する</a>
     <br>
     <br>
-    <p><a href="{{ csv_url }}">CSVで出力する</a></p>
+{#    <p><a href="{{ csv_url }}">CSVで出力する</a></p>#}
+    <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel">Excelファイルをダウンロード</a>
+    <br>
+    <br>
 
-
-
-    {#TODO: 更新日を入れたい#}
-    {#TODO: チェックした人#}
 
     <table class="table table-striped">
         <form method="get" action="{% url 'patch_list:list' %}">
