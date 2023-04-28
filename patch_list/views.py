@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 # Create your views here.
 import os
@@ -10,6 +10,9 @@ from datetime import datetime
 
 # excelダウンロード用
 import openpyxl
+# 登録画面を作成するため
+from .forms import PatchForm
+
 
 from .models import (
     Patchs, Patchs_file
@@ -18,6 +21,22 @@ from .models import (
 
 def index(request):
     return render(request, 'index.html')
+
+# パッチリストを更新する為の処理
+def patch_create(request):
+    if request.method == 'POST':
+        form = PatchForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('patch_list:list')
+
+    else:
+        form = PatchForm()
+    return render(request, 'patch/patch_create.html', {'form': form})
+
+
+
+
 
 class PatchListView(ListView):
     # modelで作成したclassを指定
