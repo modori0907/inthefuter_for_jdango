@@ -8,13 +8,10 @@
     <a href="{% url 'patch_list:list' %}">全データを再表示する</a>
     <br>
     <br>
-{#    <p><a href="{{ csv_url }}">CSVで出力する</a></p>#}
+    {#    <p><a href="{{ csv_url }}">CSVで出力する</a></p>#}
     <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel">表示内容をExcelファイルでダウンロード</a>
     <br>
     <br>
-    <p>日付順で並び替える</p>
-    <input type="radio" name="">
-
 
     <table class="table table-striped">
         <form method="get" action="{% url 'patch_list:list' %}">
@@ -60,6 +57,7 @@
             <th>Patch Name</th>
             <th>Patch No</th>
             <th>Reference URL</th>
+            <th>UPDATE</th>
         </tr>
         </thead>
         <tbody>
@@ -70,8 +68,11 @@
                 <td>{{ patch_list.release_date }}</td>
                 <td>{{ patch_list.patch_name }}</td>
                 <td>{{ patch_list.patch_no }}</td>
-{# _blankで別タブでリンク先を開くことが出来る　#}
-              <td> <a href="{{ patch_list.reference_url }}" target="_blank">{{ patch_list.reference_url }}</a></td>
+                {# _blankで別タブでリンク先を開くことが出来る　#}
+
+                <td><a href="{{ patch_list.reference_url }}" target="_blank">{{ patch_list.reference_url }}</a></td>
+                {#　updateするための項目            #}
+                <td><a href="{% url 'patch_list:update' patch_list.pk %}">Update</a></td>
             </tr>
         {% endfor %}
         </tbody>

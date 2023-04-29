@@ -22,7 +22,7 @@ from .models import (
 def index(request):
     return render(request, 'index.html')
 
-# パッチリストを更新する為の処理
+# パッチリストを作成する為の処理
 def patch_create(request):
     if request.method == 'POST':
         form = PatchForm(request.POST)
@@ -34,8 +34,23 @@ def patch_create(request):
         form = PatchForm()
     return render(request, 'patch/patch_create.html', {'form': form})
 
+# パッチリストを更新する為の処理
+def patch_update(request, pk):
+    patch = Patchs.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = PatchForm(request.POST, instance=patch)
+        if form.is_valid():
+            form.save()
+            return redirect('patch_list:list')
+    else:
+        form = PatchForm(instance=patch)
+    return render(request, 'patch/patch_update.html', {'form': form})
 
-
+# パッチリストを削除する処理
+def patch_delete(request, pk):
+    patch = Patchs.objects.get(pk=pk)
+    patch.delete()
+    return redirect('patch_list:list')
 
 
 class PatchListView(ListView):
