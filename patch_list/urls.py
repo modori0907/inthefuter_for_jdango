@@ -11,4 +11,7 @@ urlpatterns = [
     path('create/', patch_create, name='create'),
     # 更新する為のurlpattern
     path('update/<int:pk>/', patch_update, name='update'),
+    # 削除する為のurlpattern
+    path('delete/<int:pk>/', patch_delete, name='delete'),
+
 ]

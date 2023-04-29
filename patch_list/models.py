@@ -19,7 +19,7 @@ class Patchs(models.Model):
     patch_no = models.CharField(max_length=100)
     reference_url = models.URLField()
     # 更新した日時を画面上に表示させるため
-    # updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # 検索範囲を指定するため
     @property
@@ -30,6 +30,8 @@ class Patchs(models.Model):
 
 #　後で追加していく
     class Meta:
+        # ListViewで表示したときに、更新した降順に表示させるために
+        ordering = ['-updated_at']
         db_table = "patchlists"
 
     def __str__(self):
