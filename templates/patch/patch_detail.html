@@ -1,0 +1,30 @@
+{% extends 'base_for_patch.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3>{{ patchs.name }}の詳細</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>チェック: {% if patchs.impact_check %}済み{% else %}未済{% endif %}</p>
+                        <p>チェック項目: {{ patchs.checks }}</p>
+                        <p>リリース日: {{ patchs.release_date }}</p>
+                        <p>パッチ名: {{ patchs.patch_name }}</p>
+                        <p>パッチ番号: {{ patchs.patch_no }}</p>
+                        <p>参照URL: <a href="{{ patchs.reference_url }}" target="_blank">{{ patchs.reference_url }}</a>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        {#            <a href="{% url 'patch_list:index' %}" class="btn btn-secondary">戻る</a>#}
+                        <a href="{% url 'patch_list:update' patchs.pk %}" class="btn btn-primary">編集</a>
+                        <a href="{% url 'patch_list:delete' patchs.pk %}" class="btn btn-danger"
+                           onclick="if(!confirm('本当に削除しますか？')){return false;}">削除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

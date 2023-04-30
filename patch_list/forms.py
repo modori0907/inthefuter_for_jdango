@@ -1,6 +1,9 @@
 # 登録画面や入力画面を作成するために新規追加した
 from django import forms
+
 from .models import Patchs
+
+
 
 
 
@@ -21,5 +24,3 @@ class PatchForm(forms.ModelForm):
             'patch_no': forms.TextInput(attrs={'class': 'form-control'}),
             'reference_url': forms.URLInput(attrs={'class': 'form-control'}),
         }
-
-

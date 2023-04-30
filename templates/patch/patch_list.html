@@ -15,7 +15,8 @@
     <table class="table table-striped">
         <form method="get" action="{% url 'patch_list:list' %}">
             <a><strong><u>条件検索（＆）</u></strong></a>
-
+            <br>
+            <br>
             <p>
                 開始月:
                 <input type="month" name="start_date">
@@ -34,11 +35,19 @@
                 </select>
             </p>
             {# 追加  #}
-            <p>チェック有無　： <input type="text" name="patch_check"></p>
+            <p>業務影響：
+                {#            <input type="text" name="application_name">#}
+                <select name="impact_check">
+                    <option value="">--必要に応じ選択してください--</option>
+                    <option value=1>あり</option>
+                    <option value=0>なし</option>
+                </select>
+            </p>
+
+
             <p>
                 <input type="submit" value="上記内容で検索する">
             </p>
-
 
 
         </form>
@@ -57,9 +66,11 @@
         <tbody>
         {% for patch_list in object_list %}
             <tr>
-                <td>{{ patch_list.name }}</td>
-                {#　チェックボックスが使えるようにする。#}
+                {#                <td>{{ patch_list.name }}</td>#}
 
+                {#　チェックボックスが使えるようにする。#}
+                {#            nameをクリックするとpkを取得してそれをもとに詳細画面を表示する#}
+                <td><a href="{% url 'patch_list:detail' patch_list.pk %}">{{ patch_list.name }}</a></td>
                 <td>
                     {% if patch_list.impact_check %}
                         <input type="checkbox" checked disabled>

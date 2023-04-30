@@ -1,26 +1,25 @@
-from django.shortcuts import render, redirect
-from django.views.generic.list import ListView
-# Create your views here.
-import os
-# csv ダウンロード用
-import csv
-from django.http import HttpResponse
-from django.urls import reverse
 from datetime import datetime
 
 # excelダウンロード用
 import openpyxl
+# Create your views here.
+# csv ダウンロード用
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
+# 詳細画面を表示するため
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+
 # 登録画面を作成するため
 from .forms import PatchForm
-
-
 from .models import (
-    Patchs, Patchs_file
+    Patchs
 )
 
 
-def index(request):
-    return render(request, 'index.html')
+# def index(request):
+#     return render(request, 'index.html')
 
 # パッチリストを作成する為の処理
 def patch_create(request):
@@ -34,6 +33,7 @@ def patch_create(request):
         form = PatchForm()
     return render(request, 'patch/patch_create.html', {'form': form})
 
+
 # パッチリストを更新する為の処理
 def patch_update(request, pk):
     patch = Patchs.objects.get(pk=pk)
@@ -46,11 +46,18 @@ def patch_update(request, pk):
         form = PatchForm(instance=patch)
     return render(request, 'patch/patch_update.html', {'form': form})
 
+
 # パッチリストを削除する処理
 def patch_delete(request, pk):
     patch = Patchs.objects.get(pk=pk)
     patch.delete()
     return redirect('patch_list:list')
+
+
+# パッチリストの詳細画面を表示する
+class PatchDetailView(DetailView):
+    model = Patchs
+    template_name = 'patch/patch_detail.html'
 
 
 class PatchListView(ListView):
@@ -62,7 +69,8 @@ class PatchListView(ListView):
         query = super().get_queryset()
         # URLに記載した名前
         name = self.request.GET.get('application_name', None)
-        checks = self.request.GET.get('patch_check', None)
+        # checks = self.request.GET.get('patch_check', None)
+        impact_check = self.request.GET.get('impact_check', None)
 
         start_month = self.request.GET.get('start_date', None)
         end_month = self.request.GET.get('end_date', None)
@@ -72,9 +80,9 @@ class PatchListView(ListView):
                 name=name
             )
 
-        if checks:
+        if impact_check:
             query = query.filter(
-                checks=checks
+                impact_check=impact_check
             )
 
         if start_month and end_month:
@@ -93,15 +101,13 @@ class PatchListView(ListView):
 
         # GETパラメーターにapplication_nameが含まれている場合に、CSVファイルのダウンロードURLをコンテキストに追加
         # ここで指定するのはhtmlで記載された番号をしていする
-        if 'application_name' or 'patch_check' or 'start_date' or 'end_date' in self.request.GET:
+        if 'application_name' or 'impact_check' or 'start_date' or 'end_date' in self.request.GET:
             # reverse('patch_list:list')で、patch_listという名前のURLパターンのURLを取得
             # self.request.GET.urlencode()で、GETパラメーターをエンコードした文字列を取得
             context['excel_url'] = reverse('patch_list:list') + '?' + self.request.GET.urlencode()
             # context['csv_url']に、CSVファイルのダウンロードURLを追加
             context['excel_url'] += '&export=excel'
         return context
-
-
 
     # def create_csv_response(self, queryset):
     #     response = HttpResponse(content_type='text/csv')
@@ -113,7 +119,8 @@ class PatchListView(ListView):
     #         writer.writerow([patch.name, patch.patch_name, patch.patch_no, patch.release_date])
     #     return response
 
-    def create_excel_response(self,queryset):
+    # エクセス記載処理
+    def create_excel_response(self, queryset):
         response = HttpResponse(content_type='application/vnd.ms-excel')
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         response['Content-Disposition'] = f'attachment; filename="search_results_{timestamp}.xlsx"'
@@ -139,7 +146,6 @@ class PatchListView(ListView):
         workbook.save(response)
 
         return response
-
 
     def get(self, request, *args, **kwargs):
         if 'export' in request.GET and request.GET['export'] == 'excel':
