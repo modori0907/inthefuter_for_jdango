@@ -12,19 +12,40 @@
     {# css用に追加#}　　
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_for_patch.css' %}">
 
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"#}
+    {#        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSL+2m"#}
+    {#        crossorigin="anonymous"></script>#}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <script src="{% static 'js/script_for_patch.js' %}"></script>
+
 </head>
 <body>
 {# js用に追加#}
-<script src="{% static 'js/script_for_patch.js' %}"></script>
 
 
 {# 画面上部に固定して、cssで装飾#}
 <nav class="navbar">
     <ul class="nav-list">
-{#　cssを利用して間隔をあける　#}
-    <li class="nav-item"><a href="{% url 'patch_list:list' %}">全データ再表示</a></li>
-    <li class="nav-item"><a href="{% url 'patch_list:create' %}">データ追加</a></li>
+        {#　cssを利用して間隔をあける　#}
+        <li class="nav-item"><a href="{% url 'patch_list:list' %}">全データ再表示</a></li>
+        <li class="nav-item"><a href="{% url 'patch_list:create' %}">データ追加</a></li>
     </ul>
+
 </nav>
 
 
@@ -32,17 +53,6 @@
     {% block content %}
     {% endblock %}
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSL+2m"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
 
 
 </body>

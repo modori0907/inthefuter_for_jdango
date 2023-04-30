@@ -1,16 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-# class ApplicationNames(models.Model):
-#     name = models.CharField(max_length=100)
-#
-#     class Meta:
-#         db_table = 'application_names'
-#     # 管理画面でわかりやすく表示するため
-#     def __str__(self):
-#         return self.name
-
 class Patchs(models.Model):
     name = models.CharField(max_length=100)
     checks = models.CharField(max_length=100)
@@ -20,6 +9,8 @@ class Patchs(models.Model):
     reference_url = models.URLField()
     # 更新した日時を画面上に表示させるため
     updated_at = models.DateTimeField(auto_now=True)
+    # チェック項目
+    impact_check = models.BooleanField(default=False)
 
     # 検索範囲を指定するため
     @property

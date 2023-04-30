@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-# javascript用
+# javascript,css用
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static" ]
 

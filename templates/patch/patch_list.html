@@ -1,14 +1,14 @@
-
-
 {% extends 'base_for_patch.html' %}
 
 {% block content %}
     <h1>Patch List</h1>
+
+    {#    テスト#}
     <br>
     <br>
     <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel"
        class="btn btn-primary">Excelダウンロード</a>
-{#    <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel">表示内容をExcelファイルでダウンロード</a>#}
+    {#    <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel">表示内容をExcelファイルでダウンロード</a>#}
     <br>
     <br>
 
@@ -23,7 +23,6 @@
                 <input type="month" name="end_date">
             </p>
             <p>
-
 
             <p>プロダクトタイプ：
                 {#            <input type="text" name="application_name">#}
@@ -40,9 +39,12 @@
                 <input type="submit" value="上記内容で検索する">
             </p>
 
+
+
         </form>
         <tr>
             <th>Name</th>
+            <th>Business impact</th>
             <th>Checks</th>
             <th>Release Date</th>
             <th>Patch Name</th>
@@ -56,12 +58,20 @@
         {% for patch_list in object_list %}
             <tr>
                 <td>{{ patch_list.name }}</td>
+                {#　チェックボックスが使えるようにする。#}
+
+                <td>
+                    {% if patch_list.impact_check %}
+                        <input type="checkbox" checked disabled>
+                    {% else %}
+                        <input type="checkbox" disabled>
+                    {% endif %}
+                </td>
                 <td>{{ patch_list.checks }}</td>
                 <td>{{ patch_list.release_date }}</td>
                 <td>{{ patch_list.patch_name }}</td>
                 <td>{{ patch_list.patch_no }}</td>
                 {# _blankで別タブでリンク先を開くことが出来る　#}
-
                 <td><a href="{{ patch_list.reference_url }}" target="_blank">{{ patch_list.reference_url }}</a></td>
                 {#　updateするための項目            #}
                 <td><a href="{% url 'patch_list:update' patch_list.pk %}">Update</a></td>

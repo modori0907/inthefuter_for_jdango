@@ -26,6 +26,8 @@
     text-decoration: none;
 }
 
+/*固定したnavbarとタイトル(h1)がかぶらないように*/
 h1 {
   margin-top: 60px; /* navbarの高さ+10px分マージンを設定 */
 }
+
