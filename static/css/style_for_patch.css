@@ -35,11 +35,28 @@ h1 {
 
 /*新規作成、もしくは更新した場合に背景を変更する処理*/
 
-tr.new {
-  background-color: green;
+td.new {
+  background-color: yellowgreen;
 }
-tr.updated {
+td.updated {
   background-color: orange;
+}
+
+/*指定した文字を点滅させる処理*/
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
 }
 
 
