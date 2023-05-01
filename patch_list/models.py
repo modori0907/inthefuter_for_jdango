@@ -1,4 +1,6 @@
 from django.db import models
+#掲示板でtimezoneを使うため
+from django.utils import timezone
 
 class Patchs(models.Model):
     name = models.CharField(max_length=100)
@@ -47,4 +49,17 @@ class Patchs_file(models.Model):
 
     def __str__(self):
         return self.patch_name.patch_name
+
+# コメント追加用
+class Comment(models.Model):
+    patchs = models.ForeignKey(Patchs, on_delete=models.CASCADE, related_query_name='comments')
+    author = models.CharField(default="anonymous", max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        ordering = ['-created_date']
 

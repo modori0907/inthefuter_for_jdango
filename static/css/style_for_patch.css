@@ -6,6 +6,8 @@
     width: 100%;
     background-color: #333;
     color: #fff;
+    /*詳細画面が上に表示されてしまうので*/
+    z-index: 0;
 }
 
 /*display: flex を設定して、アイテム間のスペースを等分配するように justify-content: space-between を設定し、

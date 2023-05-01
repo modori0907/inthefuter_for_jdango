@@ -12,9 +12,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 # 登録画面を作成するため
-from .forms import PatchForm
+from .forms import PatchForm, CommentForm
 from .models import (
-    Patchs
+    Patchs, Comment
 )
 
 
@@ -55,9 +55,52 @@ def patch_delete(request, pk):
 
 
 # パッチリストの詳細画面を表示する
+# コメント登録機能を追加
+# class PatchDetailView(DetailView):
+#
+#     model = Patchs
+#     template_name = 'patch/patch_detail.html'
+
+
+# def PatchDetailView(request, pk):
+#     patch_list = get_object_or_404(Patchs, pk=pk)
+#     comments = patch_list.comments.filter(active=True)
+#
+#     # フォームの送信がPOSTメソッドで行われた場合、フォームのバリデーションが成功した場合に、
+#     # 新しいコメントを作成
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.patchs = patch_list
+#             comment.save()
+#             return redirect('patch_list:detail', pk = patch_list.pk)
+#     else:
+#         form = CommentForm()
+#
+#     return render(request, 'patch/patch_detail.html', {'patch_list':patch_list, 'comment': comments, 'form': form})
+
 class PatchDetailView(DetailView):
     model = Patchs
     template_name = 'patch/patch_detail.html'
+    context_object_name = 'patch_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(patchs=self.get_object())
+        context['form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.patchs = self.object
+            comment.save()
+            return redirect('patch_list:detail', pk=self.object.pk)
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
 
 
 class PatchListView(ListView):
@@ -65,7 +108,7 @@ class PatchListView(ListView):
     model = Patchs
     template_name = 'patch/patch_list.html'
 
-# 検索画面の結果を表示させるため。getで取得した値
+    # 検索画面の結果を表示させるため。getで取得した値
     def get_queryset(self):
         query = super().get_queryset()
         # URLに記載した名前

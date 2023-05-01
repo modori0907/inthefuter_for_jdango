@@ -1,3 +1,8 @@
+非同期処理
+https://gihyo.jp/article/2022/08/monthly-python-2208
+
+
+
 modori/modori
 
 検索画面作成

@@ -11,8 +11,6 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     {# css用に追加#}　　
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_for_patch.css' %}">
-
-
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -33,14 +31,16 @@
 <body>
 
 {# 画面上部に固定して、cssで装飾#}
-<nav class="navbar">
-    <ul class="nav-list">
-        {#　cssを利用して間隔をあける　#}
-        <li class="nav-item"><a href="{% url 'patch_list:list' %}">全データ再表示</a></li>
-        <li class="nav-item"><a href="{% url 'patch_list:create' %}">データ追加</a></li>
-    </ul>
-
-</nav>
+{#sticky-topが重要！最前面にするには。これをいれないと他のhtmlで上書きされてしまう#}
+<div class="sticky-top">
+    <nav class="navbar">
+        <ul class="nav-list">
+            {#　cssを利用して間隔をあける　#}
+            <li class="nav-item"><a href="{% url 'patch_list:list' %}">全データ再表示</a></li>
+            <li class="nav-item"><a href="{% url 'patch_list:create' %}">データ追加</a></li>
+        </ul>
+    </nav>
+</div>
 
 <div class="container">
     {% block content %}

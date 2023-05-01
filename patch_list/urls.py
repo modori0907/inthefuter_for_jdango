@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import PatchListView, patch_create, patch_update, patch_delete
+from .views import PatchListView, patch_create, patch_update, patch_delete, CommentForm
 
 app_name = 'patch_list'
 
@@ -11,12 +11,10 @@ urlpatterns = [
     path('create/', patch_create, name='create'),
     # 更新する為のurlpattern
     path('update/<int:pk>/', patch_update, name='update'),
-
     # 削除する為のurlpattern
     path('delete/<int:pk>/', patch_delete, name='delete'),
     # 詳細画面を表示するための処理
     path('detail/<int:pk>/', views.PatchDetailView.as_view(), name='detail'),
-
-
+    # コメントを残す画面
 
 ]

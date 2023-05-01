@@ -1,10 +1,7 @@
 # 登録画面や入力画面を作成するために新規追加した
 from django import forms
 
-from .models import Patchs
-
-
-
+from .models import Patchs, Comment
 
 
 class PatchForm(forms.ModelForm):
@@ -30,3 +27,10 @@ class PatchForm(forms.ModelForm):
             'Remark': forms.URLInput(attrs={'class': 'form-control'}),
 
         }
+
+# コメント追加用
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('author', 'text')
