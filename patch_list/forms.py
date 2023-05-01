@@ -14,6 +14,7 @@ class PatchForm(forms.ModelForm):
     name = forms.ChoiceField(choices=application_choices,
                              widget=forms.Select(attrs={'class': 'form-control'}))
 
+# ここを更新しないとupdateで表示したときに整列して表示されない
     class Meta:
         model = Patchs
         fields = '__all__'
@@ -23,4 +24,9 @@ class PatchForm(forms.ModelForm):
             'patch_name': forms.Textarea(attrs={'class': 'form-control'}),
             'patch_no': forms.TextInput(attrs={'class': 'form-control'}),
             'reference_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'patch_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'reference_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'Notes': forms.URLInput(attrs={'class': 'form-control'}),
+            'Remark': forms.URLInput(attrs={'class': 'form-control'}),
+
         }

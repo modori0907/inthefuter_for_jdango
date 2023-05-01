@@ -2,7 +2,8 @@ from django.db import models
 
 class Patchs(models.Model):
     name = models.CharField(max_length=100)
-    checks = models.CharField(max_length=100)
+    # help_textでチェック有無を追記できる
+    checks = models.CharField(max_length=100,help_text='チェック有無')
     release_date = models.DateField()
     patch_name = models.CharField(max_length=100)
     patch_no = models.CharField(max_length=100)
@@ -11,6 +12,11 @@ class Patchs(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # チェック項目
     impact_check = models.BooleanField(default=False)
+
+    # 内容追加
+    #  blank=Trueで入力無しを許可する
+    Remark = models.TextField(max_length=10000, blank=True)
+    Notes = models.TextField(max_length=10000, blank=True)
 
     # 検索範囲を指定するため
     @property

@@ -65,6 +65,7 @@ class PatchListView(ListView):
     model = Patchs
     template_name = 'patch/patch_list.html'
 
+# 検索画面の結果を表示させるため。getで取得した値
     def get_queryset(self):
         query = super().get_queryset()
         # URLに記載した名前
