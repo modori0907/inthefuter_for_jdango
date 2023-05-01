@@ -3,7 +3,6 @@
 {% block content %}
     <h1>Patch List</h1>
 
-    {#    テスト#}
     <br>
     <br>
     <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel"
@@ -11,7 +10,7 @@
     <br>
     <br>
 
-    <table class="table table-striped">
+
         <form method="get" action="{% url 'patch_list:list' %}">
             <a><strong><u>条件検索（＆）</u></strong></a>
             <br>
@@ -25,7 +24,6 @@
             <p>
 
             <p>プロダクトタイプ：
-                {#            <input type="text" name="application_name">#}
                 <select name="application_name">
                     <option value="">--必要に応じ選択してください--</option>
                     <option value="ACM">ACM</option>
@@ -35,21 +33,18 @@
             </p>
             {# 追加  #}
             <p>業務影響：
-                {#            <input type="text" name="application_name">#}
                 <select name="impact_check">
                     <option value="">--必要に応じ選択してください--</option>
                     <option value=1>あり</option>
                     <option value=0>なし</option>
                 </select>
             </p>
-
-
             <p>
                 <input type="submit" value="上記内容で検索する">
             </p>
-
-
         </form>
+    <table class="table table-striped">
+    <thead>
         <tr>
             <th>Name</th>
             <th>Business impact</th>
@@ -64,10 +59,13 @@
         </thead>
         <tbody>
         {% for patch_list in object_list %}
-            <tr>
+{#            更新された場合に、スタイルを更新する方法#}
+{#            <tr>#}
+            <tr class="{% if patch_list.is_new %}new{% elif data.is_updated %}updated{% endif %}">
                 {#　チェックボックスが使えるようにする。#}
                 {#            nameをクリックするとpkを取得してそれをもとに詳細画面を表示する#}
                 <td><a href="{% url 'patch_list:detail' patch_list.pk %}">{{ patch_list.name }}</a></td>
+
                 <td>
                     {% if patch_list.impact_check %}
                         <input type="checkbox" checked disabled>
@@ -85,6 +83,10 @@
                 <td><a href="{% url 'patch_list:update' patch_list.pk %}">Update</a></td>
                 <td><a href="{% url 'patch_list:delete' patch_list.pk %}" class="btn btn-danger"
                        onclick="if(!confirm('本当に削除しますか？')){return false;}">削除</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+            <td colspan="5">No Date</td>
             </tr>
         {% endfor %}
         </tbody>

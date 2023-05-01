@@ -14,6 +14,8 @@ class Patchs(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # チェック項目
     impact_check = models.BooleanField(default=False)
+    # 新規作成した日時
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # 内容追加
     #  blank=Trueで入力無しを許可する

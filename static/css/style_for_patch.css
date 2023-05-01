@@ -33,3 +33,13 @@ h1 {
   margin-top: 60px; /* navbarの高さ+10px分マージンを設定 */
 }
 
+/*新規作成、もしくは更新した場合に背景を変更する処理*/
+
+tr.new {
+  background-color: green;
+}
+tr.updated {
+  background-color: orange;
+}
+
+

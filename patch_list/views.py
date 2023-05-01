@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 # コメントを記述した行を最新にしたい場合
 from django.db.models import Subquery, OuterRef
+from django.utils import timezone
 
 
 # excelダウンロード用
@@ -120,6 +121,21 @@ class PatchListView(ListView):
 
         # 最新のコメントがあるパッチを上位に表示する
         query = query.order_by('-latest_comment')
+
+        # 更新および新規作成を判定する
+        today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+        for obj in query:
+
+            # 1日より前に作成されたもの
+            if obj.created_at >= today - timedelta(days=1):
+                obj.is_new = True
+            else:
+                obj.is_new = False
+            if obj.updated_at >= today - timedelta(days=1):
+                obj.is_updated = True
+            else:
+                obj.is_updated = False
 
         return query
 
