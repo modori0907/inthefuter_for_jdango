@@ -1,4 +1,7 @@
 from datetime import datetime
+# コメントを記述した行を最新にしたい場合
+from django.db.models import Subquery, OuterRef
+
 
 # excelダウンロード用
 import openpyxl
@@ -56,29 +59,6 @@ def patch_delete(request, pk):
 
 # パッチリストの詳細画面を表示する
 # コメント登録機能を追加
-# class PatchDetailView(DetailView):
-#
-#     model = Patchs
-#     template_name = 'patch/patch_detail.html'
-
-
-# def PatchDetailView(request, pk):
-#     patch_list = get_object_or_404(Patchs, pk=pk)
-#     comments = patch_list.comments.filter(active=True)
-#
-#     # フォームの送信がPOSTメソッドで行われた場合、フォームのバリデーションが成功した場合に、
-#     # 新しいコメントを作成
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.patchs = patch_list
-#             comment.save()
-#             return redirect('patch_list:detail', pk = patch_list.pk)
-#     else:
-#         form = CommentForm()
-#
-#     return render(request, 'patch/patch_detail.html', {'patch_list':patch_list, 'comment': comments, 'form': form})
 
 class PatchDetailView(DetailView):
     model = Patchs
@@ -134,6 +114,13 @@ class PatchListView(ListView):
             end_month = datetime.strptime(end_month, '%Y-%m')
             query = query.filter(release_date__range=(start_month, end_month))
 
+        # サブクエリを利用して、最新のコメントの日時を取得する
+        subquery = Comment.objects.filter(patchs_id=OuterRef('pk')).order_by('-created_date')
+        query = query.annotate(latest_comment=Subquery(subquery.values('created_date')[:1]))
+
+        # 最新のコメントがあるパッチを上位に表示する
+        query = query.order_by('-latest_comment')
+
         return query
 
     # csvダウンロード用追加した
@@ -153,15 +140,6 @@ class PatchListView(ListView):
             context['excel_url'] += '&export=excel'
         return context
 
-    # def create_csv_response(self, queryset):
-    #     response = HttpResponse(content_type='text/csv')
-    #     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    #     response['Content-Disposition'] = f'attachment; filename="search_results_{timestamp}.csv"'
-    #     writer = csv.writer(response)
-    #     writer.writerow(['Name', 'Patch Name', 'Patch No', 'Release Date', 'Patch Name'])
-    #     for patch in queryset:
-    #         writer.writerow([patch.name, patch.patch_name, patch.patch_no, patch.release_date])
-    #     return response
 
     # エクセス記載処理
     def create_excel_response(self, queryset):
@@ -184,7 +162,6 @@ class PatchListView(ListView):
             worksheet.cell(row=row_num, column=2, value=patch.patch_name)
             worksheet.cell(row=row_num, column=3, value=patch.patch_no)
             worksheet.cell(row=row_num, column=4, value=patch.release_date)
-            # worksheet.cell(row=row_num, column=5, value=patch.content)
             row_num += 1
 
         workbook.save(response)
