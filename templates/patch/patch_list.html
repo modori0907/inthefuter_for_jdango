@@ -10,43 +10,43 @@
        class="btn btn-primary">Excelダウンロード</a>
     <br>
     <br>
-{#    URLで飛ばすようにする。appかsecurityか的な感じで。そこで表示させる内容を絞る#}
+    {#    URLで飛ばすようにする。appかsecurityか的な感じで。そこで表示させる内容を絞る#}
 
 
-        <form method="get" action="{% url 'patch_list:list' %}">
-            <a><strong><u>条件検索（＆）</u></strong></a>
-            <br>
-            <br>
-            <p>
-                開始月:
-                <input type="month" name="start_date">
-                終了月:
-                <input type="month" name="end_date">
-            </p>
-            <p>
+    <form method="get" action="{% url 'patch_list:list' %}">
+        <a><strong><u>条件検索（＆）</u></strong></a>
+        <br>
+        <br>
+        <p>
+            開始月:
+            <input type="month" name="start_date">
+            終了月:
+            <input type="month" name="end_date">
+        </p>
+        <p>
 
-            <p>プロダクトタイプ：
-                <select name="application_name">
-                    <option value="">--必要に応じ選択してください--</option>
-                    <option value="ACM">ACM</option>
-                    <option value="CMS">CMS</option>
-                    <option value="AES">AES</option>
-                </select>
-            </p>
-            {# 追加  #}
-            <p>業務影響：
-                <select name="impact_check">
-                    <option value="">--必要に応じ選択してください--</option>
-                    <option value=1>あり</option>
-                    <option value=0>なし</option>
-                </select>
-            </p>
-            <p>
-                <input type="submit" value="上記内容で検索する">
-            </p>
-        </form>
+        <p>プロダクトタイプ：
+            <select name="application_name">
+                <option value="">--必要に応じ選択してください--</option>
+                <option value="ACM">ACM</option>
+                <option value="CMS">CMS</option>
+                <option value="AES">AES</option>
+            </select>
+        </p>
+        {# 追加  #}
+        <p>業務影響：
+            <select name="impact_check">
+                <option value="">--必要に応じ選択してください--</option>
+                <option value=1>あり</option>
+                <option value=0>なし</option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="上記内容で検索する">
+        </p>
+    </form>
     <table class="table table-striped">
-    <thead>
+        <thead>
         <tr>
             <th>Name</th>
             <th>Business impact</th>
@@ -61,12 +61,16 @@
         </thead>
         <tbody>
         {% for patch_list in object_list %}
-{#            更新された場合に、スタイルを更新する方法#}
+            {#            更新された場合に、スタイルを更新する方法#}
             <tr>
-{#            <tr class="{% if patch_list.is_new %}new{% elif data.is_updated %}updated{% endif %}">#}
+                {#            <tr class="{% if patch_list.is_new %}new{% elif data.is_updated %}updated{% endif %}">#}
                 {#　チェックボックスが使えるようにする。#}
                 {#            nameをクリックするとpkを取得してそれをもとに詳細画面を表示する#}
-                <td><a href="{% url 'patch_list:detail' patch_list.pk %}">{{ patch_list.name }}</a></td>
+                <td class="{% if patch_list.is_new %}new{% elif data.is_updated %}updated{% endif %}"><a
+                        href="{% url 'patch_list:detail' patch_list.pk %}">{{ patch_list.name }}</a>
+                    <br>
+                    {% if patch_list.is_new %}<p class="blink">新規</p>{% elif data.is_updated %}更新{% endif %}
+                </td>
 
                 <td>
                     {% if patch_list.impact_check %}
@@ -77,11 +81,8 @@
                 </td>
                 <td>{{ patch_list.checks }}</td>
                 <td>{{ patch_list.release_date }}</td>
-{#            更新処理を識別。viewで定義したis_new,is_updatedを元にして表示させる内容を変更する#}
-                <td class="{% if patch_list.is_new %}new{% elif data.is_updated %}updated{% endif %}">{{ patch_list.patch_name }}
-                <br>
-                    {% if patch_list.is_new %}<p class="blink">新規</p>{% elif data.is_updated %}更新{% endif %}
-                </td>
+                {#            更新処理を識別。viewで定義したis_new,is_updatedを元にして表示させる内容を変更する#}
+                <td>{{ patch_list.patch_name }}</td>
                 <td>{{ patch_list.patch_no }}</td>
                 {# _blankで別タブでリンク先を開くことが出来る　#}
                 <td><a href="{{ patch_list.reference_url }}" target="_blank">{{ patch_list.reference_url }}</a></td>
@@ -92,7 +93,7 @@
             </tr>
         {% empty %}
             <tr>
-            <td colspan="9">No Date</td>
+                <td colspan="9">No Date</td>
             </tr>
         {% endfor %}
         </tbody>
