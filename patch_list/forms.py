@@ -14,7 +14,11 @@ class PatchForm(forms.ModelForm):
 # ここを更新しないとupdateで表示したときに整列して表示されない
     class Meta:
         model = Patchs
-        fields = '__all__'
+        # fields = '__all__'
+        # 全部のフィールドが表示されないようにする。ここに指定した順に表示される
+        fields = ['name', 'release_date', 'name']
+
+
         widgets = {
             'checks': forms.TextInput(attrs={'class': 'form-control'}),
             'release_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),

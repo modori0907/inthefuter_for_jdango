@@ -51,6 +51,8 @@ def patch_update(request, pk):
     return render(request, 'patch/patch_update.html', {'form': form})
 
 
+
+
 # パッチリストを削除する処理
 def patch_delete(request, pk):
     patch = Patchs.objects.get(pk=pk)
