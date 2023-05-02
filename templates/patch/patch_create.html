@@ -4,7 +4,16 @@
     <h1>Patch Create</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {# これだと全部の値が表示される#}
+                {{ form.as_p }}
+        {# 表示させる項目を絞り込むため#}
+{#        {{ form.name }}#}
+{#        {{ form.checks }}#}
+{#        {{ form.release_date }}#}
+{#        {{ form.patch_name }}#}
+{#        {{ form.patch_no }}#}
+{#        {{ form.reference_url }}#}
+
         <button type="submit">作成</button>
     </form>
 {% endblock %}

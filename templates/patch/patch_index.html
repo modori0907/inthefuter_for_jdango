@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>index</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -29,22 +29,12 @@
 
 </head>
 <body>
-
-{# 画面上部に固定して、cssで装飾#}
-{#sticky-topが重要！最前面にするには。これをいれないと他のhtmlで上書きされてしまう#}
-<div class="sticky-top">
-    <nav class="navbar">
-        <ul class="nav-list">
-            {#　cssを利用して間隔をあける　#}
-            <li class="nav-item"><a href="{% url 'patch_list:index' %}">Home画面</a></li>
-        </ul>
-    </nav>
-</div>
-
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
+<p>　検索対象：
+    <select name="application_name" onchange="goToUrl()">
+        <option value="">---確認したいパッチの種類を選択してください---</option>
+        <option value="{% url 'patch_list:list' %}">全て表示</option>
+    </select>
+</p>
 
 </body>
 </html>

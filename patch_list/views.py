@@ -21,9 +21,9 @@ from .models import (
     Patchs, Comment
 )
 
-
-# def index(request):
-#     return render(request, 'index.html')
+# 検索画面を表示
+def index(request):
+    return render(request, 'patch/patch_index.html')
 
 # パッチリストを作成する為の処理
 def patch_create(request):

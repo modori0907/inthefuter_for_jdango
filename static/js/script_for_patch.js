@@ -1,10 +1,8 @@
-
-var button = document.getElementById('toggle-columns');
-var elements = document.getElementsByClassName('toggleable');
-
-button.addEventListener('click', function() {
-for (var i = 0; i < elements.length; i++) {
-
-  elements[i].classList.toggle('hidden');
+// # indexでリンク先を変更する処理
+function goToUrl() {
+    var selectElement = document.getElementsByName("application_name")[0];
+    var url = selectElement.value;
+    if (url != '') {
+        window.location = url;
+    }
 }
-});

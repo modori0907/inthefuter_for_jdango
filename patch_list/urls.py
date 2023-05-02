@@ -5,7 +5,8 @@ from .views import PatchListView, patch_create, patch_update, patch_delete, Comm
 app_name = 'patch_list'
 
 urlpatterns = [
-    # path('', views.index, name='index'),
+    # パッチの種類を選択して表示させる画面を変更
+    path('index', views.index, name='index'),
     path('list', PatchListView.as_view(), name='list'),
     # 追加する為のurlpattern
     path('create/', patch_create, name='create'),

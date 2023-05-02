@@ -6,12 +6,16 @@
     <br>
     <br>
 
-    <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel"
-       class="btn btn-primary">Excelダウンロード</a>
-    <br>
-    <br>
-    {#    URLで飛ばすようにする。appかsecurityか的な感じで。そこで表示させる内容を絞る#}
+    <div class="d-flex align-items-center">
+        <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel" class="btn btn-primary mr-3">Excelダウンロード</a>
+        <form action="{% url 'patch_list:create' %}">
+            <button type="submit" class="btn btn-primary">データ追加</button>
+        </form>
+    </div>
 
+    <br>
+    <br>
+    {#URLで飛ばすようにする。appかsecurityか的な感じで。そこで表示させる内容を絞る#}
 
     <form method="get" action="{% url 'patch_list:list' %}">
         <a><strong><u>条件検索（＆）</u></strong></a>
@@ -44,6 +48,8 @@
         <p>
             <input type="submit" value="上記内容で検索する">
         </p>
+
+
     </form>
     <table class="table table-striped">
         <thead>
