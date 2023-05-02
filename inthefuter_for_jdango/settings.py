@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'patch_list'
+    'patch_list',
+    # csvでデータをインポートするためのAPP
+    'import_export',
 ]
 
 MIDDLEWARE = [
