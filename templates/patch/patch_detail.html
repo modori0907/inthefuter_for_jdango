@@ -8,6 +8,7 @@
                 <div class="card mt-5">
                     <div class="card-header">
                         <h3>{{ patch_list.name }}の詳細</h3>
+                        <p>閲覧回数: {{ patch_list.views_count }}</p>
                     </div>
                     <div class="card-body">
                         <p>チェック: {% if patch_list.impact_check %}済み{% else %}未済{% endif %}</p>

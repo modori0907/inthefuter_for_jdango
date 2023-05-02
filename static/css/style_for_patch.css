@@ -55,8 +55,14 @@ td.updated {
   }
 }
 
+
+/*newを点滅させるため*/
 .blink {
   animation: blink 1s infinite;
 }
 
 
+
+.hidden {
+  display: none;
+}

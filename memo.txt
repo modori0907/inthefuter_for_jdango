@@ -1,6 +1,7 @@
 非同期処理
 https://gihyo.jp/article/2022/08/monthly-python-2208
 
+設計者を作成する
 
 
 modori/modori

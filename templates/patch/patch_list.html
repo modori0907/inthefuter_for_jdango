@@ -5,10 +5,12 @@
 
     <br>
     <br>
+
     <a href="{% url 'patch_list:list' %}?{{ request.GET.urlencode }}&export=excel"
        class="btn btn-primary">Excelダウンロード</a>
     <br>
     <br>
+{#    URLで飛ばすようにする。appかsecurityか的な感じで。そこで表示させる内容を絞る#}
 
 
         <form method="get" action="{% url 'patch_list:list' %}">
@@ -90,7 +92,7 @@
             </tr>
         {% empty %}
             <tr>
-            <td colspan="5">No Date</td>
+            <td colspan="9">No Date</td>
             </tr>
         {% endfor %}
         </tbody>

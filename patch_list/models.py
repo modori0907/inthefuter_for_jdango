@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Patchs(models.Model):
     name = models.CharField(max_length=100)
-    # help_textでチェック有無を追記できる
+    # help_textで各項目に補足を追記できる
     checks = models.CharField(max_length=100,help_text='チェック有無')
     release_date = models.DateField()
     patch_name = models.CharField(max_length=100)
@@ -16,6 +16,8 @@ class Patchs(models.Model):
     impact_check = models.BooleanField(default=False)
     # 新規作成した日時
     created_at = models.DateTimeField(auto_now_add=True)
+    # 閲覧した回数を記録
+    views_count = models.IntegerField(default=0)
 
     # 内容追加
     #  blank=Trueで入力無しを許可する

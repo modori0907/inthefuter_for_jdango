@@ -66,6 +66,16 @@ class PatchDetailView(DetailView):
     template_name = 'patch/patch_detail.html'
     context_object_name = 'patch_list'
 
+    # 閲覧した回数をカウントする為の関数
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        #　閲覧回数のインクリメント
+        obj.views_count += 1
+        obj.save()
+        return super().get(request, *args, **kwargs)
+
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(patchs=self.get_object())
@@ -156,7 +166,7 @@ class PatchListView(ListView):
             context['excel_url'] += '&export=excel'
         return context
 
-
+    # ここは表示している内容によって変更できるようにする必要がある
     # エクセス記載処理
     def create_excel_response(self, queryset):
         response = HttpResponse(content_type='application/vnd.ms-excel')
